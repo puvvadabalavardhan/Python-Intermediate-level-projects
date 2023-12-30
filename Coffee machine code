@@ -1,0 +1,90 @@
+"""Type report for knowing available resources"""
+
+"""Type off to Stop the programme"""
+
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+    "money":0
+}
+
+
+
+def get_total_amount(quarters, dimes, nickels, pennies):
+    return quarters * 0.25 + dimes * 0.10 + nickels * 0.05 + pennies * 0.01
+
+
+
+
+
+def process_coffee(coffee_type):
+
+    print(f"you have choosed {coffee_type}")
+    print("please enter coins")
+    quarters=int(input("How many quarters?: "))
+    dimes = int(input("How many dimes?: "))
+    nickels =int(input("How many nickels?: "))
+    pennies = int(input("How many pennies?: "))
+    total=get_total_amount(quarters, dimes, nickels, pennies)
+
+    cost=MENU[coffee_type]["cost"]
+    if total>=cost:
+        change=total-cost
+        resources["money"] += cost
+        print(f"collect the change  {change:.2f}$")
+        print(f"Here is your {coffee_type} Enjoy")
+
+        #dediction of ingredients
+        for ingredient,amount in MENU[coffee_type]["ingredients"].items():
+            resources[ingredient]-=amount
+    else:
+     print("Sorry, that's not enough money. Money refunded.")
+
+is_continue=True
+while is_continue:
+    user_pref=input("what would you like ?(espresso/latte/cappuccino): ")
+
+
+    if user_pref in ["espresso","latte","cappuccino"]:
+        process_coffee(user_pref)
+    elif user_pref.lower()=="report":
+        for resource,amount in resources.items():
+          if resource in ["water","milk"]:
+              print(f"{resource.title()}:{amount}ml")
+          elif resource == "coffee":
+              print(f"coffee:{amount}g")
+          elif resource=="money":
+              print(f"money:{amount:.2f}$")
+    elif user_pref.lower()=="off":
+        print("Thank you")
+        is_continue=False
+    else:
+        print("Invalid choice. Please select espresso, latte, or cappuccino.")
+
