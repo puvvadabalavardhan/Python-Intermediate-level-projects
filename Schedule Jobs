@@ -1,0 +1,24 @@
+class Job:
+    def __init__(self, job_id, processing_time):
+        self.job_id = job_id
+        self.processing_time = processing_time
+
+def schedule_jobs(jobs):
+    completion_times = []
+    current_time = 0
+
+    for job in jobs:
+        completion_time = current_time + job.processing_time
+        completion_times.append((job.job_id, completion_time))
+        current_time = completion_time
+
+    return completion_times
+
+# Example usage
+jobs = [Job(1, 5), Job(2, 3), Job(3, 8), Job(4, 2)]
+
+scheduled_jobs = schedule_jobs(jobs)
+
+print("Job Schedule:")
+for job_id, completion_time in scheduled_jobs:
+    print(f"Job {job_id}: Completed at {completion_time} units of time.")
